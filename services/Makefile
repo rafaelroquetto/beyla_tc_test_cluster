@@ -5,13 +5,15 @@ SERVICE_B_IMAGE = service-b:latest
 SERVICE_C_IMAGE = service-c:latest
 SERVICE_D_IMAGE = service-d:latest
 SERVICE_E_IMAGE = service-e:latest
+SERVICE_Q_IMAGE = service-q:latest
+SERVICE_R_IMAGE = service-r:latest
 
 # Kind cluster name
 KIND_CLUSTER_NAME = kind
 
 # Default target: build all images
 .PHONY: all
-all: load-generator service-a service-b service-c service-d service-e
+all: load-generator service-a service-b service-c service-d service-e service-q service-r
 
 # Build load generator image
 .PHONY: load-generator
@@ -43,18 +45,30 @@ service-d:
 service-e:
 	docker build -f service-e.Dockerfile -t $(SERVICE_E_IMAGE) .
 
+# Build Service Q image
+.PHONY: service-q
+service-q:
+	docker build -f service-q.Dockerfile -t $(SERVICE_Q_IMAGE) .
+
+# Build Service R image
+.PHONY: service-r
+service-r:
+	docker build -f service-r.Dockerfile -t $(SERVICE_R_IMAGE) .
+
 # Deploy images to kind cluster
 .PHONY: kind-deploy
-kind-deploy: load-generator service-a service-b service-c service-d service-e
+kind-deploy:
 	kind load docker-image $(LOAD_GENERATOR_IMAGE) --name $(KIND_CLUSTER_NAME)
 	kind load docker-image $(SERVICE_A_IMAGE) --name $(KIND_CLUSTER_NAME)
 	kind load docker-image $(SERVICE_B_IMAGE) --name $(KIND_CLUSTER_NAME)
 	kind load docker-image $(SERVICE_C_IMAGE) --name $(KIND_CLUSTER_NAME)
 	kind load docker-image $(SERVICE_D_IMAGE) --name $(KIND_CLUSTER_NAME)
 	kind load docker-image $(SERVICE_E_IMAGE) --name $(KIND_CLUSTER_NAME)
+	kind load docker-image $(SERVICE_Q_IMAGE) --name $(KIND_CLUSTER_NAME)
+	kind load docker-image $(SERVICE_R_IMAGE) --name $(KIND_CLUSTER_NAME)
 
 # Clean up all built images
 .PHONY: clean
 clean:
-	docker rmi $(LOAD_GENERATOR_IMAGE) $(SERVICE_A_IMAGE) $(SERVICE_B_IMAGE) $(SERVICE_C_IMAGE) $(SERVICE_D_IMAGE) $(SERVICE_E_IMAGE)
+	docker rmi $(LOAD_GENERATOR_IMAGE) $(SERVICE_A_IMAGE) $(SERVICE_B_IMAGE) $(SERVICE_C_IMAGE) $(SERVICE_D_IMAGE) $(SERVICE_E_IMAGE) $(SERVICE_Q_IMAGE) $(SERVICE_R_IMAGE)
 

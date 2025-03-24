@@ -20,6 +20,8 @@ data:
         - k8s_deployment_name: service-c
         - k8s_deployment_name: service-d
         - k8s_deployment_name: service-e
+        - k8s_deployment_name: service-q
+        - k8s_deployment_name: service-r
     trace_printer: text
     ebpf:
       enable_context_propagation: true
