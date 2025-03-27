@@ -6,9 +6,9 @@ const app = express();
 app.get('/b', async (req, res) => {
     try {
         // Making all requests in parallel using Promise.all
-        const serviceCRequest = axios.get('http://service-c:5002/c');
-        const serviceRRequest = axios.get('http://service-r:5006/r');
-        const serviceQRequest = axios.post(
+        const serviceCRequest = await axios.get('http://service-c:5002/c');
+        const serviceRRequest = await axios.get('http://service-r:5006/r');
+        const serviceQRequest = await axios.post(
             'http://service-q:5007/q',
             {
                 query: '{ hello }'  // GraphQL query as JSON payload
