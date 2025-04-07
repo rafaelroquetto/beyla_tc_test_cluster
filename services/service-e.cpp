@@ -9,6 +9,12 @@
 
 void handle_request(const int client_socket)
 {
+    char buf[1024];
+
+    const ssize_t bytes_read = read(client_socket, buf, sizeof buf);
+
+    std::cout << "read " << bytes_read << "bytes: " << buf << std::endl;
+
     // HTTP response content
     const std::string response_body = "Service E -> Hello from Service E";
     const std::string response = 
